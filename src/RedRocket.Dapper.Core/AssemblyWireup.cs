@@ -1,17 +1,20 @@
-﻿using Dapper;
+﻿using FlitBit.IoC;
 using FlitBit.Wireup;
 using FlitBit.Wireup.Meta;
+using RedRocket.Dapper.Core.Mapper;
+using AssemblyWireup = RedRocket.Dapper.Core.AssemblyWireup;
 
-[assembly: Wireup(typeof(RedRocket.Dapper.Core.AssemblyWireup))]
+[assembly: Wireup(typeof(AssemblyWireup))]
 namespace RedRocket.Dapper.Core
 {
     public class AssemblyWireup : IWireupCommand
     {
         public void Execute(IWireupCoordinator coordinator)
         {
-            var typeMap = SqlMapper.GetTypeMap(typeof (DefaultTypeMap));
-            //typeMap.
-            //SqlMapper.SetTypeMap();          
+            Container.Root
+                     .ForGenericType(typeof(IMapper<>))
+                     .Register(typeof(DtoMapper<>))
+                     .End();
         }
     }
 }

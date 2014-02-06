@@ -1,20 +1,29 @@
+#region
+
 using System;
 using System.Reflection;
 using FlitBit.Dto;
 
+#endregion
+
 namespace RedRocket.Dapper.Core
 {
     [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class DbTableAttribute : DTOAttribute
+    public class TableAttribute : DTOAttribute
     {
-        /// <summary>
-        /// Database Table Name
-        /// </summary>
-        public string Name { get; private set; }
+        readonly string _name;
 
-        public DbTableAttribute(string name)
+        public TableAttribute(string name)
         {
-            Name = name;
+            _name = name;
+        }
+
+        /// <summary>
+        ///     Database Table Name
+        /// </summary>
+        public string Name
+        {
+            get { return _name; }
         }
     }
 
@@ -22,7 +31,7 @@ namespace RedRocket.Dapper.Core
     {
         public static string GetTableName(this Type type)
         {
-            var tableAttribute = type.GetCustomAttribute<DbTableAttribute>();
+            var tableAttribute = type.GetCustomAttribute<TableAttribute>();
             return tableAttribute != null ? tableAttribute.Name : string.Empty;
         }
     }
