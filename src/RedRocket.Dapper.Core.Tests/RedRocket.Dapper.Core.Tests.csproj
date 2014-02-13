@@ -56,9 +56,15 @@
     <Reference Include="FluentAssertions">
       <HintPath>..\packages\FluentAssertions.2.2.0.0\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
+    <Reference Include="JetBrains.Annotations">
+      <HintPath>..\packages\JetBrains.Annotations.7.0\lib\net45\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RedRocket.Utilities.Core">
+      <HintPath>..\packages\RedRocket.Utilities.Core.1.0.7\lib\net45\RedRocket.Utilities.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -75,6 +81,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectionStringManagerTests.cs" />
+    <Compile Include="DbOpenConnectionTests.cs" />
     <Compile Include="Infrastructure\AbstractTests.cs" />
     <Compile Include="DbTableTests.cs" />
     <Compile Include="ExternalWireup\Dependency.FlitBit.Dto.cs" />
@@ -92,6 +100,9 @@
       <Project>{856D9157-313F-4192-932E-67302F13D64B}</Project>
       <Name>RedRocket.Dapper.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

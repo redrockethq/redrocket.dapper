@@ -15,13 +15,13 @@ namespace RedRocket.Dapper.Core.Tests
         {
             using (Create.SharedOrNewContainer())
             {
-                var user = Create.New<IUser>();
+				var user = Create.New<IUser>();
             }
         }
 
         public void Blah()
         {
-            var db = Create.New<IDatabase>();
+			var db = Create.New<IDatabase>();
             var predicate = Predicates.Field<IUser>(u => u.FirstName, Operator.Eq, "blah");
         }
     }

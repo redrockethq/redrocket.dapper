@@ -53,11 +53,18 @@
     <Reference Include="FlitBit.Wireup">
       <HintPath>..\packages\FlitBit.Wireup.3.1.0\lib\net40\FlitBit.Wireup.dll</HintPath>
     </Reference>
+    <Reference Include="JetBrains.Annotations">
+      <HintPath>..\packages\JetBrains.Annotations.7.0\lib\net45\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="RedRocket.Utilities.Core">
+      <HintPath>..\packages\RedRocket.Utilities.Core.1.0.7\lib\net45\RedRocket.Utilities.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
@@ -82,6 +89,7 @@
     <Compile Include="Commands\IExecuteStoredProcedure.cs" />
     <Compile Include="Mapper\ReflectionHelper.cs" />
     <Compile Include="IRedRocketDapperConfiguration.cs" />
+    <Compile Include="Sql\SqlServerConnectionStringManager.cs" />
     <Compile Include="Sql\Predicates\Predicate.cs" />
     <Compile Include="Sql\SqlDialect.cs" />
     <Compile Include="Sql\SqlGenerator.cs" />
