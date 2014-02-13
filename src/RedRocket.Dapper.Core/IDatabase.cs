@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using FlitBit.Core;
 using FlitBit.IoC;
 using FlitBit.IoC.Meta;
 using RedRocket.Dapper.Core.Commands;
@@ -19,7 +20,7 @@ namespace RedRocket.Dapper.Core
 		ITransactionHelper Transaction { get; }
 	}
 
-	[ContainerRegister(typeof(IDatabase), RegistrationBehaviors.Default, ScopeBehavior = ScopeBehavior.InstancePerRequest)]
+	[ContainerRegister(typeof(IDatabase), RegistrationBehaviors.Default, ScopeBehavior = ScopeBehavior.InstancePerScope)]
 	public class Database : IDatabase
 	{
 		IDapperImplementor _dapper;
@@ -40,12 +41,18 @@ namespace RedRocket.Dapper.Core
 		public ITransactionHelper Transaction { get; private set; }
 		public void Dispose()
 		{
+			Commands.Dispose();
+			Transaction.Dispose();
+
 			if (Connection.State != ConnectionState.Closed)
 			{
 				if (Transaction.HasActiveTransaction)
 					Transaction.Rollback();
-				Connection.Dispose();
+				Connection.Close();
+				Connection = null;
 			}
+
+
 		}
 	}
 
@@ -54,6 +61,10 @@ namespace RedRocket.Dapper.Core
 		public static ISqlCommandHelper Commands(this IDbConnection connection)
 		{
 			return Create.NewWithParams<ISqlCommandHelper>(LifespanTracking.Automatic, Param.FromValue(connection));
+		}
+		public static ITransactionHelper Transaction(this IDbConnection connection)
+		{
+			return Create.NewWithParams<ITransactionHelper>(LifespanTracking.Automatic, Param.FromValue(connection));
 		}
 	}
 

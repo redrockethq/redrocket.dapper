@@ -25,27 +25,5 @@ namespace RedRocket.Dapper.Core.Tests
 				}
 			}
 		}
-
-		[Fact]
-		public void DbHelperShouldHaveEmptyConnectionStringWithoutInitialization()
-		{
-			Db.DefaultConnectionString = string.Empty;
-			using (Create.SharedOrNewContainer())
-			{
-				Assert.Empty(Db.DefaultConnectionString);
-			}
-		}
-
-		[Fact]
-		public void DbHelperShouldAllowSettingTheDefaultConnectionString()
-		{
-			using (Create.SharedOrNewContainer())
-			{
-				const string connectionStringName = "npdb";
-				var rawConnectionString = Db.ConnectionStrings[connectionStringName];
-				Db.SetDefaultConnectionStringByName(connectionStringName);
-				Assert.Equal(rawConnectionString, Db.DefaultConnectionString);
-			}
-		}
 	}
 }

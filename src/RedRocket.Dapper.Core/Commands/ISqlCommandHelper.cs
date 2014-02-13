@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using System.Data;
 using FlitBit.IoC;
@@ -10,7 +11,7 @@ using RedRocket.Dapper.Core.Sql.Predicates;
 
 namespace RedRocket.Dapper.Core.Commands
 {
-	public interface ISqlCommandHelper
+	public interface ISqlCommandHelper : IDisposable
 	{
 		IExecuteStoredProcedure StoredProcedures { get; }
 		IExecuteFunction Functions { get; }
@@ -82,6 +83,16 @@ namespace RedRocket.Dapper.Core.Commands
 		public int Count<T>(object predicate, IDbTransaction transaction = null, int? commandTimeout = null)
 		{
 			return Dapper.Count<T>(Connection, predicate, transaction, commandTimeout);
+		}
+
+		public void Dispose()
+		{
+			if (Connection != null && Connection.State != ConnectionState.Closed)
+			{
+				Connection.Close();
+				Connection = null;
+			}
+
 		}
 	}
 }

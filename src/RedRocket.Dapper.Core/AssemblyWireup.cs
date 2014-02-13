@@ -18,9 +18,10 @@ namespace RedRocket.Dapper.Core
 					 .Register(typeof(DtoMapper<>))
 					 .End();
 
-			Container.Root.ForType<IDbConnection>()
-					 .Register<SqlConnection>()
-					 .ResolveAnInstancePerScope()
+			Container.Root
+					 .ForType<IDbConnection>()
+					 .Register(typeof(SqlConnection), Param.FromValue("data source=sqlb.streamlinedb.com;initial catalog=npdb;User Id=sa;Password=a12qrt?;MultipleActiveResultSets=True;"))
+					 .ResolveAnInstancePerRequest()
 					 .End();
 		}
 	}

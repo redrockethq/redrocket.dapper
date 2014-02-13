@@ -10,15 +10,29 @@ namespace RedRocket.Dapper.Core.Tests
 		[Fact]
 		public void CanOpenConnection()
 		{
-			var connectionString = Db.ConnectionStrings["npdb"];
-			Assert.NotEmpty(connectionString);
-
 			using (Create.SharedOrNewContainer())
-			using (var connection = Create.New<IDbConnection>())
+			using (var conn = Create.New<IDbConnection>())
 			{
-				connection.Open();
-				Assert.True(connection.State == ConnectionState.Open, "Connection should have opened, however it's in the {0} state".P(connection.State));
+				conn.Open();
+				Assert.Equal(conn.State, ConnectionState.Open);
 			}
+		}
+
+
+		[Fact]
+		public void CanOpenConnectinFromDB()
+		{
+			using (Create.SharedOrNewContainer())
+			{
+				using (var db = Create.New<IDatabase>())
+				{
+					db.Connection.Open();
+					Assert.Equal(db.Connection.State, ConnectionState.Open);
+
+					db.Dispose();
+				}
+			}
+
 		}
 	}
 }

@@ -8,7 +8,7 @@ using FlitBit.IoC.Meta;
 
 namespace RedRocket.Dapper.Core.Sql.Transactions
 {
-	public interface ITransactionHelper
+	public interface ITransactionHelper : IDisposable
 	{
 		bool HasActiveTransaction { get; }
 		void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted);
@@ -21,18 +21,18 @@ namespace RedRocket.Dapper.Core.Sql.Transactions
 	[ContainerRegister(typeof(ITransactionHelper), RegistrationBehaviors.Default)]
 	public class TransactionHelper : ITransactionHelper
 	{
-		readonly IDbConnection _connection;
+		IDbConnection Connection { get; set; }
 
 		public TransactionHelper(IDbConnection connection)
 		{
-			_connection = connection;
+			Connection = connection;
 		}
 
 		protected IDbTransaction CurrentTransaction { get; private set; }
 
 		public void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
 		{
-			CurrentTransaction = _connection.BeginTransaction(isolationLevel);
+			CurrentTransaction = Connection.BeginTransaction(isolationLevel);
 		}
 
 		public void Commit()
@@ -85,6 +85,16 @@ namespace RedRocket.Dapper.Core.Sql.Transactions
 		public bool HasActiveTransaction
 		{
 			get { return CurrentTransaction != null; }
+		}
+
+		public void Dispose()
+		{
+			if (Connection != null && Connection.State != ConnectionState.Closed)
+			{
+				Connection.Close();
+				Connection = null;
+			}
+
 		}
 	}
 }

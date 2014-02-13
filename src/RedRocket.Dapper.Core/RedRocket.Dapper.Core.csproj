@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultDbConnectionFactory.cs" />
     <Compile Include="IDapperImplementor.cs" />
     <Compile Include="IDatabase.cs" />
     <Compile Include="Commands\IExecuteFunction.cs" />
